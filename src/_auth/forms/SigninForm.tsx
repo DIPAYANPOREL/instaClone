@@ -6,4 +6,4 @@ const SigninForm = () => {
   )
 }
 
-export default SigninForm
+export default SigninForm;
