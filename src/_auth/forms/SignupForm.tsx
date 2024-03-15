@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { SignupValidation } from "@/lib/validation";
 import Loader from "@/components/ui/shared/Loader";
 import { Link } from "react-router-dom";
+import { createUserAccount } from "@/lib/appwrite/api";
 
 const SignupForm = () => {
   const isLoading = false;
@@ -35,6 +36,7 @@ const SignupForm = () => {
     // Do something with the form values.
     // console.log(values);
     const newUser = await createUserAccount(values);
+    console.log(newUser);
   }
 
   return (
@@ -130,7 +132,10 @@ const SignupForm = () => {
           </Button>
           <p className="text-small-regular text-light-2 text-center mt-2">
             Already have an account ?
-            <Link to="/sign-in" className="text-primary-500 text-small-semibold ml-1">
+            <Link
+              to="/sign-in"
+              className="text-primary-500 text-small-semibold ml-1"
+            >
               Log in
             </Link>
           </p>
