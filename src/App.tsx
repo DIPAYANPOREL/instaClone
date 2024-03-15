@@ -6,6 +6,7 @@ import { Home } from "./_root/pages";
 import { Route, Routes } from "react-router-dom";
 import "./globals.css";
 
+import { Toaster } from "@/components/ui/toaster";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
           <Route index element={<Home />} />
         </Route>
       </Routes>
+      <Toaster /> {/* Used for alert the user*/}
     </main>
   );
 };

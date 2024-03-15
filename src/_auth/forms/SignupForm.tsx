@@ -2,10 +2,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
+import { useToast } from "@/components/ui/use-toast";
+
 import {
   Form,
   FormControl,
-  // FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -18,6 +19,7 @@ import { Link } from "react-router-dom";
 import { createUserAccount } from "@/lib/appwrite/api";
 
 const SignupForm = () => {
+  const { toast } = useToast();
   const isLoading = false;
 
   // 1. Defination of form.
@@ -37,6 +39,12 @@ const SignupForm = () => {
     // console.log(values);
     const newUser = await createUserAccount(values);
     console.log(newUser);
+    if (!newUser) {
+      return toast({
+        title: "Sign up failed. Plese try again.",
+      });
+    }
+    const session = await signInAccount()
   }
 
   return (
