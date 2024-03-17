@@ -15,24 +15,27 @@ import {
 import { Input } from "@/components/ui/input";
 import { SignupValidation } from "@/lib/validation";
 import Loader from "@/components/ui/shared/Loader";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   useCreateUserAccount,
   useSignInAccount,
 } from "@/lib/react-query/queriesAndMutations";
+import { useUserContext } from "@/context/AuthContext";
 
 const SignupForm = () => {
   const { toast } = useToast();
   // const isLoading = false;
+  const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
+
+  // Defining navigate
+  const navigate = useNavigate();
 
   const { mutateAsync: createUserAccount, isLoading: isCreatingAccount } =
     useCreateUserAccount();
 
-
   const { mutateAsync: signInAccount, isLoading: isSigningIn } =
     useSignInAccount();
 
-  
   // 1. Defination of form.
   const form = useForm<z.infer<typeof SignupValidation>>({
     resolver: zodResolver(SignupValidation),
@@ -50,7 +53,7 @@ const SignupForm = () => {
     // console.log(values);
     const newUser = await createUserAccount(values);
     console.log(newUser);
-    
+
     if (!newUser) {
       return toast({
         title: "Sign up failed. Plese try again.",
@@ -62,6 +65,14 @@ const SignupForm = () => {
     });
     if (!session) {
       return toast({ title: "Sign in failed." });
+    }
+    const isLoggedIn = await checkAuthUser();
+    if (isLoggedIn) {
+      form.reset();
+
+      navigate("/");
+    } else {
+      return toast({ title: "Sign u failed. Please try again." });
     }
   }
 
