@@ -12,6 +12,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+
 import { Input } from "@/components/ui/input";
 import { SignupValidation } from "@/lib/validation";
 import Loader from "@/components/ui/shared/Loader";
@@ -22,6 +23,7 @@ import {
 } from "@/lib/react-query/queriesAndMutations";
 import { useUserContext } from "@/context/AuthContext";
 
+
 const SignupForm = () => {
   const { toast } = useToast();
   // const isLoading = false;
@@ -30,11 +32,12 @@ const SignupForm = () => {
   // Defining navigate
   const navigate = useNavigate();
 
-  const { mutateAsync: createUserAccount, isLoading: isCreatingAccount } =
+  const { mutateAsync: createUserAccount, isPending: isCreatingAccount } =
     useCreateUserAccount();
 
-  const { mutateAsync: signInAccount, isLoading: isSigningIn } =
+  const { mutateAsync: signInAccount, isPending: isSigningIn } =
     useSignInAccount();
+
 
   // 1. Defination of form.
   const form = useForm<z.infer<typeof SignupValidation>>({
@@ -158,7 +161,7 @@ const SignupForm = () => {
           />
           <Button type="submit" className="shad-button_primary">
             {/* Submit */}
-            {isCreatingUser ? (
+            {isCreatingAccount ? (
               <div className="flex-center gap-2">
                 <Loader />
                 Loading...
